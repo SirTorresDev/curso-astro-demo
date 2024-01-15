@@ -1,0 +1,38 @@
+---
+    import {type Doc } from '../types/api'
+    import {getLatestLaunches} from '../services/spacex'
+    import CardLaunch from './CardLaunch.astro'
+
+    const docs = await getLatestLaunches()
+
+---
+
+<div class="pt-8 pb-16 px-2 sm:px-12 lg:px-16 flex">
+    <div class="relative mb-4 flex w-full flex-wrap items-stretch">
+      <input
+        type="search"
+        class="relative m-0 block min-w-0 flex-auto rounded-2xl border border-solid border-neutral-300 bg-transparent bg-clip-padding px-5 py-[0.75rem] text-xl font-normal leading-[1.6 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-400 dark:focus:border-primary placeholder:text-neutral-400 font-bold"
+        placeholder="Search flight number"
+        aria-label="Search"
+        aria-describedby="button-addon2"
+      />
+    </div>
+  </div>
+
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      docs.map((doc: Doc) => (
+        /*<article>
+                  <img src={doc.links.patch.small} alt=""/>
+                  <h2>Launch #{doc.id}</h2>
+            </article>*/ <CardLaunch
+                name={doc.name}
+                id={doc.id}
+                img={doc.links.patch.small}
+                success={doc.success}
+                flightNumber={doc.flight_number}
+                details={doc.details}
+        />
+      ))
+    }
+  </div>
